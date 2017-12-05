@@ -1,15 +1,22 @@
 package main
-/*
-#include <stdio.h>
-int datspecialnumber() {
-    return 2015;
-}
-*/
-import "C"
-import "fmt"
-import "sysmeter/meter"
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+
+	"github.com/zcalusic/sysinfo"
+)
 
 func main() {
-	fmt.Println(C.datspecialnumber())
-	fmt.Println(meter.Mem())
+	var si sysinfo.SysInfo
+
+	si.GetSysInfo()
+
+	data, err := json.MarshalIndent(&si, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(data))
 }
